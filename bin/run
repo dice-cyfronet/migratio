@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'sidekiq'
+require_relative '../lib/migration/worker'
+
+RUNNER_PATH = File.join(ROOT_PATH, 'lib', 'migration', 'runner.rb')
+
+def queues
+  Migration::Worker.config.queues.inject('') do |qs, queue|
+    qs << " -q #{queue}"
+  end
+end
+
+system "sidekiq #{queues} -c 1 -r #{RUNNER_PATH}"
