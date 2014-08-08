@@ -8,14 +8,8 @@ module Migration
       def perform(*params)
         begin
           perform_action(*params)
-        rescue Errno::EACCES => e
-          $stderr << "Error: Cannot write to config files - continuing\n"
-          $stderr << "#{e}\n"
-        rescue Errno::ENOENT => e
-          $stderr << "Error: Trying to remove non existing config files - continuing\n"
-          $stderr << "#{e}\n"
-        rescue Errno::ESRCH => e
-          $stderr << "Warning: Nginx is dead - continuing\n"
+        rescue => e
+          $stderr << "Something bad!\n"
           $stderr << "#{e}\n"
         end
       end
