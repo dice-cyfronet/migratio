@@ -1,6 +1,6 @@
 queues:
-  - main
+  - migration
 
 redis_url: redis://localhost:6379
-namespace: migration
+namespace: air
 

@@ -23,7 +23,7 @@ module Migration
     end
 
     def namespace
-      @config['namespace'] || 'migration'
+      @config['namespace'] || 'air'
     end
 
     def default_config_path
