@@ -22,6 +22,7 @@ fi
 
 : ${EXTERNAL_USER:?"Need to set EXTERNAL_USER non-empty"}
 : ${EXTERNAL_HOST:?"Need to set EXTERNAL_HOST non-empty"}
+: ${SOURCE_CS:?"Need to set SOURCE_CS non-empty"}
 
 command -v glance > /dev/null 2>&1 || { echo "Need to have 'glance'" >&2; exit 1; }
 command -v rsync > /dev/null 2>&1 || { echo "Need to have 'rsync'" >&2; exit 1; }
@@ -64,7 +65,7 @@ then
             --disk-format ${disk_format} \
             --container-format ${container_format} \
             --property source_uuid=${image_uuid} \
-            --property source_cs=cyfronet-folsom < /tmp/${image_uuid}-${hash_sum}; \
+            --property source_cs=${SOURCE_CS} < /tmp/${image_uuid}-${hash_sum}; \
             rm -f /tmp/${image_uuid}-${hash_sum}"
         echo "Registered"
         exit 0
