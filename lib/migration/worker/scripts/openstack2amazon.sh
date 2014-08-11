@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 export __dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ $# -eq 0 ] || [ $# -eq 1 ]
@@ -8,6 +10,7 @@ then
     exit 1
 fi
 
+. ~/.creds
 . $2
 
 : ${OS_TENANT_NAME:?"Need to set OS_TENANT_NAME non-empty"}
