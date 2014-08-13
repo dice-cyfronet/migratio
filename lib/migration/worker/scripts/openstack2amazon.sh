@@ -74,7 +74,7 @@ then
 
             ec2-create-image -n ${image_uuid}-${hash_sum} -d "${image_name}-${hash_sum}" ${instance}
             __ami_id=$(ec2-describe-images | grep ${image_uuid}-${hash_sum} | awk '{print $2}')
-            ec2-create-tags ${__ami_id} --tag source_cs=${SOURCE_CS} --tag source_uuid=${image_uuid} --tag Name=${image_uuid}-${hash_sum}
+            ec2-create-tags ${__ami_id} --tag source_cs=${SOURCE_CS} --tag source_uuid=${image_uuid} --tag Name=${image_name}-${hash_sum}
             echo "Registered"
 
             rm -f /tmp/${image_uuid}.raw
