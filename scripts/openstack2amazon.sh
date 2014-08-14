@@ -78,10 +78,10 @@ then
 
             __ami_id=$(ec2-describe-images | grep ${image_uuid}-${hash_sum} | awk '{print $2}')
             until [ -n "${__ami_id}" ]
-            then
+            do
                 sleep 30
                 __ami_id=$(ec2-describe-images | grep ${image_uuid}-${hash_sum} | awk '{print $2}')
-            fi
+            done
 
             ec2-create-tags ${__ami_id} --tag source_cs=${SOURCE_CS} --tag source_uuid=${image_uuid} --tag Name=${image_name}-${image_uuid}-${hash_sum}
             echo "Registered"
