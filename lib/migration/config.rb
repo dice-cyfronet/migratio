@@ -14,8 +14,8 @@ module Migration
       end
     end
 
-    def queues
-      @config['queues'] || ['default']
+    def queue
+      @config['queue'] || ['default']
     end
 
     def redis_url
@@ -24,6 +24,10 @@ module Migration
 
     def namespace
       @config['namespace'] || 'air'
+    end
+
+    def name
+      @config['name'] || 'name'
     end
 
     def default_config_path
