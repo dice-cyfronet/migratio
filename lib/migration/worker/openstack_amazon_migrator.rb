@@ -10,7 +10,7 @@ module Migration
         Sidekiq::Client.push(
           'queue' => 'migration_jobs',
           'class' => 'UpdateMigrationJobStatusWorker',
-          'args' => [image_uuid, config.name, compute_site, output]])
+          'args' => [image_uuid, config.name, compute_site, output])
         if $?.exitstatus == 1
           return
 
@@ -18,7 +18,7 @@ module Migration
         Sidekiq::Client.push(
           'queue' => 'migration_jobs',
           'class' => 'UpdateMigrationJobStatusWorker',
-          'args' => [image_uuid, config.name, compute_site, output]])
+          'args' => [image_uuid, config.name, compute_site, output])
         if $?.exitstatus == 1
           return
 
@@ -26,7 +26,7 @@ module Migration
         Sidekiq::Client.push(
           'queue' => 'migration_jobs',
           'class' => 'UpdateMigrationJobStatusWorker',
-          'args' => [image_uuid, config.name, compute_site, output]])
+          'args' => [image_uuid, config.name, compute_site, output])
         if $?.exitstatus == 1
           return
 
@@ -34,7 +34,7 @@ module Migration
         Sidekiq::Client.push(
           'queue' => 'migration_jobs',
           'class' => 'UpdateMigrationJobStatusWorker',
-          'args' => [image_uuid, config.name, compute_site, output]])
+          'args' => [image_uuid, config.name, compute_site, output])
       end
     end
   end
