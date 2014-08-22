@@ -24,7 +24,9 @@ image_uuid=$1
 
 if [ -f /tmp/${image_uuid}.raw ]
 then
-    check_remote=$(ec2-describe-images | grep IMAGE | grep ${image_uuid} | wc -l)
+    check_remote=$(ec2-describe-images | grep IMAGE | grep ${image_uuid} | wc -l) &>> ${__dir}/logs/o2a-t.log
+    echo ${check_remote} &>> ${__dir}/logs/o2a-t.log
+
     if [ ${check_remote} -eq 0 ]
     then
         ec2-import-instance /tmp/${image_uuid}.raw -f RAW -b imported-images -p Linux --region ${AWS_REGION} -t m3.medium -a x86_64 -d ${image_uuid} -o ${AWS_ACCESS_KEY} -w ${AWS_SECRET_KEY} &>> ${__dir}/logs/o2a-t.log

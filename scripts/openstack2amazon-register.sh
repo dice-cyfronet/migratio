@@ -29,10 +29,13 @@ image_uuid=$1
 
 if [ -f /tmp/${image_uuid}.raw ]
 then
-    check_remote=$(ec2-describe-images | grep IMAGE | grep ${image_uuid} | wc -l)
+    check_remote=$(ec2-describe-images | grep IMAGE | grep ${image_uuid} | wc -l) &>> ${__dir}/logs/o2a-r.log
+    echo ${check_remote} &>> ${__dir}/logs/o2a-r.log
+
     if [ ${check_remote} -eq 0 ]
     then
-        __output=$(ec2-describe-conversion-tasks | grep ${image_uuid})
+        __output=$(ec2-describe-conversion-tasks | grep ${image_uuid}) &>> ${__dir}/logs/o2a-r.log
+        echo ${__output} &>> ${__dir}/logs/o2a-r.log
 
         if [ ! -z "${__output}" ]
         then
@@ -40,16 +43,19 @@ then
 
             sleep 30
 
-            __ami_id=$(ec2-describe-images | grep ${image_uuid} | awk '{print $2}')
+            __ami_id=$(ec2-describe-images | grep ${image_uuid} | awk '{print $2}') &>> ${__dir}/logs/o2a-r.log
+            echo ${__ami_id} &>> ${__dir}/logs/o2a-r.log
+
             until [ -n "${__ami_id}" ]
             do
                 sleep 30
-                __ami_id=$(ec2-describe-images | grep ${image_uuid}} | awk '{print $2}')
+                __ami_id=$(ec2-describe-images | grep ${image_uuid}} | awk '{print $2}') &>> ${__dir}/logs/o2a-r.log
+                echo ${__ami_id} &>> ${__dir}/logs/o2a-r.log
             done
 
             ec2-create-tags ${__ami_id} --tag source_cs=${SOURCE_CS} --tag source_uuid=${image_uuid} --tag Name="${image_name}-${image_uuid}" &>> ${__dir}/logs/o2a-r.log
 
-            rm -f /tmp/${image_uuid}.raw
+            rm -f /tmp/${image_uuid}.raw &>> &>> ${__dir}/logs/o2a-r.log
 
             echo "Registered image"
             exit 0

@@ -23,13 +23,17 @@ command -v sudo > /dev/null 2>&1 || { echo "No 'sudo'" >&2; exit 1; }
 command -v qemu-img > /dev/null 2>&1 || { echo "No 'qemu-img'" >&2; exit 1; }
 
 image_uuid=$1
-image_list=$(glance image-list)
 
-check_local=$(echo "${image_list}" | grep ${image_uuid} | wc -l)
+image_list=$(glance image-list) &>> ${__dir}/logs/o2a-c.log
+echo ${image_list} &>> ${__dir}/logs/o2a-c.log
+
+check_local=$(echo "${image_list}" | grep ${image_uuid} | wc -l) &>> ${__dir}/logs/o2a-c.log
+echo ${check_local} &>> ${__dir}/logs/o2a-c.log
 
 if [ ${check_local} -eq 1 ]
 then
-    image_name=$(echo "${image_list}" | grep ${image_uuid} | awk -F'|' '{print $3}' | sed -e 's/^ *//' -e 's/ *$//')
+    image_name=$(echo "${image_list}" | grep ${image_uuid} | awk -F'|' '{print $3}' | sed -e 's/^ *//' -e 's/ *$//') &>> ${__dir}/logs/o2a-c.log
+    echo ${image_name} &>> ${__dir}/logs/o2a-c.log
 
     if [ ! -f /tmp/${image_uuid}.raw ]
     then

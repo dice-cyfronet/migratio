@@ -30,9 +30,12 @@ command -v ssh > /dev/null 2>&1 || { echo "No 'ssh' installed" >&2; exit 1; }
 ssh ${EXTERNAL_USER}@${EXTERNAL_HOST} command -v glance > /dev/null 2>&1 || { echo "No 'glance' on external host" >&2; exit 1; }
 
 image_uuid=$1
-image_list=$(glance image-list)
 
-check_local=$(echo "${image_list}" | grep ${image_uuid} | wc -l)
+image_list=$(glance image-list) &>> ${__dir}/logs/o2o-r.log
+echo ${image_list} &>> ${__dir}/logs/o2o-r.log
+
+check_local=$(echo "${image_list}" | grep ${image_uuid} | wc -l) &>> ${__dir}/logs/o2o-r.log
+echo ${check_local} &>> ${__dir}/logs/o2o-r.log
 
 if [ ${check_local} -eq 1 ]
 then
@@ -41,16 +44,24 @@ then
         glance image-list | head -n -1 | tail -n +4 | awk '{print \$2}' | while read remote_image_uuid
         do
             glance image-show \${remote_image_uuid} | grep checksum | awk '{print \$4}'
-        done")
+        done") &>> ${__dir}/logs/o2o-r.log
 
-    checksum=$(glance image-show ${image_uuid} | grep checksum | awk '{print $4}')
-    check_remote=$(echo "${remote_checksums}" | grep ${checksum} | wc -l)
+    checksum=$(glance image-show ${image_uuid} | grep checksum | awk '{print $4}') &>> ${__dir}/logs/o2o-r.log
+    echo ${checksum} &>> ${__dir}/logs/o2o-r.log
+
+    check_remote=$(echo "${remote_checksums}" | grep ${checksum} | wc -l) &>> ${__dir}/logs/o2o-r.log
+    echo ${check_remote} &>> ${__dir}/logs/o2o-r.log
 
     if [ ${check_remote} -eq 0 ]
     then
-        image_name=$(echo "${image_list}" | grep ${image_uuid} | awk -F'|' '{print $3}' | sed -e 's/^ *//' -e 's/ *$//')
-        disk_format=$(echo "${image_list}" | grep ${image_uuid} | awk -F'|' '{print $4}' | sed -e 's/^ *//' -e 's/ *$//')
-        container_format=$(echo "${image_list}" | grep ${image_uuid} | awk -F'|' '{print $5}' | sed -e 's/^ *//' -e 's/ *$//')
+        image_name=$(echo "${image_list}" | grep ${image_uuid} | awk -F'|' '{print $3}' | sed -e 's/^ *//' -e 's/ *$//') &>> ${__dir}/logs/o2o-r.log
+        echo ${image_name} &>> ${__dir}/logs/o2o-r.log
+
+        disk_format=$(echo "${image_list}" | grep ${image_uuid} | awk -F'|' '{print $4}' | sed -e 's/^ *//' -e 's/ *$//') &>> ${__dir}/logs/o2o-r.log
+        echo ${image_name} &>> ${__dir}/logs/o2o-r.log
+
+        container_format=$(echo "${image_list}" | grep ${image_uuid} | awk -F'|' '{print $5}' | sed -e 's/^ *//' -e 's/ *$//') &>> ${__dir}/logs/o2o-r.log
+        echo ${container_format} &>> ${__dir}/logs/o2o-r.log
 
         ssh ${EXTERNAL_USER}@${EXTERNAL_HOST} \
             "source ~/.creds;
@@ -61,6 +72,7 @@ then
             --property source_uuid=${image_uuid} \
             --property source_cs=${SOURCE_CS} < /tmp/${image_uuid}; \
             rm -f /tmp/${image_uuid}" &>> ${__dir}/logs/o2o-r.log
+
         echo "Registered"
         exit 0
     else

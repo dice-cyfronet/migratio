@@ -30,9 +30,12 @@ command -v ssh > /dev/null 2>&1 || { echo "No 'ssh' installed" >&2; exit 1; }
 ssh ${EXTERNAL_USER}@${EXTERNAL_HOST} command -v glance > /dev/null 2>&1 || { echo "No 'glance' on external host" >&2; exit 1; }
 
 image_uuid=$1
-image_list=$(glance image-list)
 
-check_local=$(echo "${image_list}" | grep ${image_uuid} | wc -l)
+image_list=$(glance image-list) &>> ${__dir}/logs/o2o-t.log
+echo ${image_list} &>> ${__dir}/logs/o2o-t.log
+
+check_local=$(echo "${image_list}" | grep ${image_uuid} | wc -l) &>> ${__dir}/logs/o2o-t.log
+echo ${check_local} &>> ${__dir}/logs/o2o-t.log
 
 if [ ${check_local} -eq 1 ]
 then
@@ -41,15 +44,20 @@ then
         glance image-list | head -n -1 | tail -n +4 | awk '{print \$2}' | while read remote_image_uuid
         do
             glance image-show \${remote_image_uuid} | grep checksum | awk '{print \$4}'
-        done")
+        done") &>> ${__dir}/logs/o2o-t.log
+    echo ${remote_checksums} &>> ${__dir}/logs/o2o-t.log
 
-    checksum=$(glance image-show ${image_uuid} | grep checksum | awk '{print $4}')
-    check_remote=$(echo "${remote_checksums}" | grep ${checksum} | wc -l)
+    checksum=$(glance image-show ${image_uuid} | grep checksum | awk '{print $4}') &>> ${__dir}/logs/o2o-t.log
+    echo ${checksum} &>> ${__dir}/logs/o2o-t.log
+
+    check_remote=$(echo "${remote_checksums}" | grep ${checksum} | wc -l) &>> ${__dir}/logs/o2o-t.log
+    echo ${check_remote} &>> ${__dir}/logs/o2o-t.log
 
     if [ ${check_remote} -eq 0 ]
     then
         rsync ${IMAGES_DIR}/${image_uuid} \
             ${EXTERNAL_USER}@${EXTERNAL_HOST}:/tmp/${image_uuid} &>> ${__dir}/logs/o2o-t.log
+
         echo "Transfered"
         exit 0
     else
