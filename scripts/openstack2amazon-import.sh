@@ -26,7 +26,7 @@ image_uuid=$1
 if [ -f /tmp/${image_uuid}.raw ]
 then
     check_remote=$(ec2-describe-images | grep IMAGE | grep ${image_uuid} | wc -l)
-    if [ ${check_remote} -eq 1 ]
+    if [ ${check_remote} -eq 0 ]
     then
         __output=$(ec2-describe-conversion-tasks | grep ${image_uuid})
 
@@ -48,7 +48,7 @@ then
             exit 1
         fi
     else
-        echo "Requested image was not uploaded!"
+        echo "Requested image was uploaded!"
         exit 1
     fi
 else
