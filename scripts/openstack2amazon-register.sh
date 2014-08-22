@@ -55,7 +55,7 @@ then
 
             ec2-create-tags ${__ami_id} --tag source_cs=${SOURCE_CS} --tag source_uuid=${image_uuid} --tag Name="${image_name}-${image_uuid}" &>> ${__dir}/logs/o2a-r.log
 
-            rm -f /tmp/${image_uuid}.raw &>> &>> ${__dir}/logs/o2a-r.log
+            rm -f /tmp/${image_uuid}.raw &>> ${__dir}/logs/o2a-r.log
 
             echo "Registered image"
             exit 0
