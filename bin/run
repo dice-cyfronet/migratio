@@ -6,7 +6,7 @@ require_relative '../lib/migration/worker'
 RUNNER_PATH = File.join(ROOT_PATH, 'lib', 'migration', 'runner.rb')
 
 def queue
-  Migration::Worker.config.queue
+  "migration_#{Migration::Worker.config.name}"
 end
 
-system "sidekiq #{queue} -c 1 -r #{RUNNER_PATH}"
+system "sidekiq -q #{queue} -c 1 -r #{RUNNER_PATH}"

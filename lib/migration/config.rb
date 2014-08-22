@@ -14,10 +14,6 @@ module Migration
       end
     end
 
-    def queue
-      @config['queue'] || ['default']
-    end
-
     def redis_url
       @config['redis_url'] || 'redis://localhost:6379'
     end

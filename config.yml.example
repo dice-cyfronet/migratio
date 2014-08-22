@@ -1,4 +1,3 @@
 name: own_name
-queue: migration_own_name
 redis_url: redis://localhost:6379
 namespace: air
