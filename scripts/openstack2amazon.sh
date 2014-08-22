@@ -92,6 +92,9 @@ then
             echo "Image was not uploaded!"
             exit 1
         fi
+    else
+        echo "Requested image was uploaded!"
+        exit 1
     fi
 else
     echo "Requested image not exist!"
