@@ -1,15 +1,14 @@
 #!/bin/bash
 
-set -x
-
 export __dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ $# -eq 0 ] || [ $# -eq 1 ]
 then
-    echo "Usage: $0 <image-uuid> <config-file>"
+    echo "Bad script params!"
     exit 1
 fi
 
+mkdir -p ${__dir}/logs
 . ~/.creds
 . $2
 
@@ -18,10 +17,10 @@ fi
 : ${OS_PASSWORD:?"Need to set OS_PASSWORD non-empty"}
 : ${OS_AUTH_URL:?"Need to set OS_AUTH_URL non-empty"}
 
-command -v glance > /dev/null 2>&1 || { echo "Need to have 'glance'" >&2; exit 1; }
+command -v glance > /dev/null 2>&1 || { echo "No 'glance'" >&2; exit 1; }
 
-command -v sudo > /dev/null 2>&1 || { echo "Need to have 'sudo'" >&2; exit 1; }
-command -v qemu-img > /dev/null 2>&1 || { echo "Need to have 'qemu-img'" >&2; exit 1; }
+command -v sudo > /dev/null 2>&1 || { echo "No 'sudo'" >&2; exit 1; }
+command -v qemu-img > /dev/null 2>&1 || { echo "No 'qemu-img'" >&2; exit 1; }
 
 image_uuid=$1
 image_list=$(glance image-list)
@@ -34,7 +33,7 @@ then
 
     if [ ! -f /tmp/${image_uuid}.raw ]
     then
-        sudo qemu-img convert -f qcow2 -O raw /var/lib/glance/images/${image_uuid} /tmp/${image_uuid}.raw
+        sudo qemu-img convert -f qcow2 -O raw /var/lib/glance/images/${image_uuid} /tmp/${image_uuid}.raw &>> ${__dir}/logs/o2a-c.log
     fi
 
     echo "Image converted"

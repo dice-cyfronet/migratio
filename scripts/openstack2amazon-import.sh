@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 export __dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ $# -eq 0 ] || [ $# -eq 1 ]
@@ -10,6 +8,7 @@ then
     exit 1
 fi
 
+mkdir -p ${__dir}/logs
 . ~/.creds
 . $2
 
@@ -19,8 +18,8 @@ fi
 : ${AWS_REGION:?"Need to set AWS_REGION non-empty"}
 : ${SOURCE_CS:?"Need to set SOURCE_CS non-empty"}
 
-command -v ec2-describe-images > /dev/null 2>&1 || { echo "Need to have 'ec2-describe-images'" >&2; exit 1; }
-command -v ec2-describe-conversion-tasks > /dev/null 2>&1 || { echo "Need to have 'ec2-describe-conversion-tasks'" >&2; exit 1; }
+command -v ec2-describe-images > /dev/null 2>&1 || { echo "No 'ec2-describe-images' installed" >&2; exit 1; }
+command -v ec2-describe-conversion-tasks > /dev/null 2>&1 || { echo "No 'ec2-describe-conversion-tasks' installed" >&2; exit 1; }
 
 image_uuid=$1
 

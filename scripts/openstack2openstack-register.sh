@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 export __dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ $# -eq 0 ] || [ $# -eq 1 ]
@@ -10,6 +8,7 @@ then
     exit 1
 fi
 
+mkdir -p ${__dir}/logs
 . ~/.creds
 . $2
 
@@ -24,11 +23,11 @@ fi
 : ${EXTERNAL_HOST:?"Need to set EXTERNAL_HOST non-empty"}
 : ${SOURCE_CS:?"Need to set SOURCE_CS non-empty"}
 
-command -v glance > /dev/null 2>&1 || { echo "Need to have 'glance'" >&2; exit 1; }
-command -v rsync > /dev/null 2>&1 || { echo "Need to have 'rsync'" >&2; exit 1; }
-command -v ssh > /dev/null 2>&1 || { echo "Need to have 'ssh'" >&2; exit 1; }
+command -v glance > /dev/null 2>&1 || { echo "No 'glance' installed" >&2; exit 1; }
+command -v rsync > /dev/null 2>&1 || { echo "No 'rsync' installed" >&2; exit 1; }
+command -v ssh > /dev/null 2>&1 || { echo "No 'ssh' installed" >&2; exit 1; }
 
-ssh ${EXTERNAL_USER}@${EXTERNAL_HOST} command -v glance > /dev/null 2>&1 || { echo "Need to have 'glance' on external host" >&2; exit 1; }
+ssh ${EXTERNAL_USER}@${EXTERNAL_HOST} command -v glance > /dev/null 2>&1 || { echo "No 'glance' on external host" >&2; exit 1; }
 
 image_uuid=$1
 image_list=$(glance image-list)
@@ -61,7 +60,7 @@ then
             --container-format ${container_format} \
             --property source_uuid=${image_uuid} \
             --property source_cs=${SOURCE_CS} < /tmp/${image_uuid}; \
-            rm -f /tmp/${image_uuid}"
+            rm -f /tmp/${image_uuid}" &>> ${__dir}/logs/o2o-r.log
         echo "Registered"
         exit 0
     else
