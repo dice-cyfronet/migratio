@@ -25,19 +25,20 @@ command -v qemu-img > /dev/null 2>&1 || { echo "No 'qemu-img'" >&2; exit 1; }
 image_uuid=$1
 
 image_list=$(glance image-list) &>> ${__dir}/logs/o2a-c.log
-echo ${image_list} &>> ${__dir}/logs/o2a-c.log
+echo "$(date): ${image_list}" &>> ${__dir}/logs/o2a-c.log
 
 check_local=$(echo "${image_list}" | grep ${image_uuid} | wc -l) &>> ${__dir}/logs/o2a-c.log
-echo ${check_local} &>> ${__dir}/logs/o2a-c.log
+echo "$(date): ${check_local}" &>> ${__dir}/logs/o2a-c.log
 
 if [ ${check_local} -eq 1 ]
 then
     image_name=$(echo "${image_list}" | grep ${image_uuid} | awk -F'|' '{print $3}' | sed -e 's/^ *//' -e 's/ *$//') &>> ${__dir}/logs/o2a-c.log
-    echo ${image_name} &>> ${__dir}/logs/o2a-c.log
+    echo "$(date) ${image_name}" &>> ${__dir}/logs/o2a-c.log
 
     if [ ! -f /tmp/${image_uuid}.raw ]
     then
-        sudo qemu-img convert -f qcow2 -O raw /var/lib/glance/images/${image_uuid} /tmp/${image_uuid}.raw &>> ${__dir}/logs/o2a-c.log
+        __output=$(sudo qemu-img convert -f qcow2 -O raw /var/lib/glance/images/${image_uuid} /tmp/${image_uuid}.raw)
+        echo "$(date): ${__output}"&>> ${__dir}/logs/o2a-c.log
     fi
 
     echo "Image converted"

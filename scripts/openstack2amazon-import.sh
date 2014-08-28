@@ -26,23 +26,23 @@ image_uuid=$1
 if [ -f /tmp/${image_uuid}.raw ]
 then
     check_remote=$(ec2-describe-images | grep IMAGE | grep ${image_uuid} | wc -l) &>> ${__dir}/logs/o2a-i.log
-    echo ${check_remote} &>> ${__dir}/logs/o2a-i.log
+    echo "$(date): ${check_remote}" &>> ${__dir}/logs/o2a-i.log
 
     if [ ${check_remote} -eq 0 ]
     then
         __output=$(ec2-describe-conversion-tasks | grep ${image_uuid}) &>> ${__dir}/logs/o2a-i.log
-        echo ${__output} &>> ${__dir}/logs/o2a-i.log
+        echo "$(date) ${__output}" &>> ${__dir}/logs/o2a-i.log
 
         if [ ! -z "${__output}" ]
         then
             instance=$(echo ${__output} | cut -f 12 -d " ") &>> ${__dir}/logs/o2a-i.log
-            echo ${instance} &>> ${__dir}/logs/o2a-i.log
+            echo "$(date) ${instance}" &>> ${__dir}/logs/o2a-i.log
 
             until echo ${__output} | grep -E complete
             do
                 sleep 30
                 __output=$(ec2-describe-conversion-tasks | grep ${instance}) &>> ${__dir}/logs/o2a-i.log
-                echo ${__output} &>> ${__dir}/logs/o2a-i.log
+                echo "$(date): ${__output}" &>> ${__dir}/logs/o2a-i.log
             done
 
             sleep 30
