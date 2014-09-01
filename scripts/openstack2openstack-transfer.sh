@@ -32,10 +32,10 @@ ssh ${EXTERNAL_USER}@${EXTERNAL_HOST} command -v glance > /dev/null 2>&1 || { ec
 image_uuid=$1
 
 image_list=$(glance image-list) &>> ${__dir}/logs/o2o-t.log
-echo "$(date): ${image_list}" &>> ${__dir}/logs/o2o-t.log
+echo "$(date) [Result for image_list]: ${image_list}" &>> ${__dir}/logs/o2o-t.log
 
 check_local=$(echo "${image_list}" | grep ${image_uuid} | wc -l) &>> ${__dir}/logs/o2o-t.log
-echo "$(date): ${check_local}" &>> ${__dir}/logs/o2o-t.log
+echo "$(date) [Result for check_local]: ${check_local}" &>> ${__dir}/logs/o2o-t.log
 
 if [ ${check_local} -eq 1 ]
 then
@@ -45,13 +45,13 @@ then
         do
             glance image-show \${remote_image_uuid} | grep checksum | awk '{print \$4}'
         done") &>> ${__dir}/logs/o2o-t.log
-    echo "$(date): ${remote_checksums}" &>> ${__dir}/logs/o2o-t.log
+    echo "$(date) [Result for remote_checksums]: ${remote_checksums}" &>> ${__dir}/logs/o2o-t.log
 
     checksum=$(glance image-show ${image_uuid} | grep checksum | awk '{print $4}') &>> ${__dir}/logs/o2o-t.log
-    echo "$(date): ${checksum}" &>> ${__dir}/logs/o2o-t.log
+    echo "$(date) [Result for checksum]: ${checksum}" &>> ${__dir}/logs/o2o-t.log
 
     check_remote=$(echo "${remote_checksums}" | grep ${checksum} | wc -l) &>> ${__dir}/logs/o2o-t.log
-    echo "$(date): ${check_remote}" &>> ${__dir}/logs/o2o-t.log
+    echo "$(date) [Result for check_remote]: ${check_remote}" &>> ${__dir}/logs/o2o-t.log
 
     if [ ${check_remote} -eq 0 ]
     then
