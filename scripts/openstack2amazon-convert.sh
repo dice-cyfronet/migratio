@@ -28,7 +28,7 @@ image_list=$(glance image-list) &>> ${__dir}/logs/o2a-c.log
 echo "$(date) [Result for glance image-list]: ${image_list}" &>> ${__dir}/logs/o2a-c.log
 
 check_local=$(echo "${image_list}" | grep ${image_uuid} | wc -l) &>> ${__dir}/logs/o2a-c.log
-echo "$(date) [Result for looking for ${image_uuid in image_list]: ${check_local}" &>> ${__dir}/logs/o2a-c.log
+echo "$(date) [Result for looking for ${image_uuid} in image_list]: ${check_local}" &>> ${__dir}/logs/o2a-c.log
 
 if [ ${check_local} -eq 1 ]
 then
