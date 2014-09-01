@@ -63,14 +63,14 @@ then
             echo "Registered image"
             exit 0
         else
-            echo "Image was not uploaded!"
+            echo "Image was not uploaded."
             exit 1
         fi
     else
-        echo "Requested image was uploaded!"
+        echo "Requested image was uploaded."
         exit 1
     fi
 else
-    echo "Image not converted!"
+    echo "Image not converted."
     exit 1
 fi

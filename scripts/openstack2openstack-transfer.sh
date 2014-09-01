@@ -61,10 +61,10 @@ then
         echo "Transfered"
         exit 0
     else
-        echo "Requested image was uploaded!"
+        echo "Requested image was uploaded."
         exit 1
     fi
 else
-    echo "Requested image not exist!"
+    echo "Requested image not exist."
     exit 1
 fi

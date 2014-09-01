@@ -4,7 +4,7 @@ export __dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ $# -eq 0 ] || [ $# -eq 1 ]
 then
-    echo "Bad script params!"
+    echo "Bad script params."
     exit 1
 fi
 
@@ -44,6 +44,6 @@ then
     echo "Image converted"
     exit 0
 else
-    echo "Requested image not exist!"
+    echo "Requested image not exist."
     exit 1
 fi

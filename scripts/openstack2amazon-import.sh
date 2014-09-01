@@ -49,14 +49,14 @@ then
             echo "Image imported"
             exit 0
         else
-            echo "Image was not uploaded!"
+            echo "Image was not uploaded."
             exit 1
         fi
     else
-        echo "Requested image was uploaded!"
+        echo "Requested image was uploaded."
         exit 1
     fi
 else
-    echo "Image was not converted!"
+    echo "Image was not converted."
     exit 1
 fi

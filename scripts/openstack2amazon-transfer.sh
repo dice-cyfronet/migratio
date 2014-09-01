@@ -36,10 +36,10 @@ then
         echo "Image transfered"
         exit 0
     else
-        echo "Requested image was uploaded!"
+        echo "Requested image was uploaded."
         exit 1
     fi
 else
-    echo "Image not converted!"
+    echo "Image not converted."
     exit 1
 fi
