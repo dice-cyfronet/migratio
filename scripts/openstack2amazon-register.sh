@@ -50,7 +50,7 @@ then
             until [ -n "${__ami_id}" ]
             do
                 sleep 30
-                __ami_id=$(ec2-describe-images | grep ${image_uuid}} | awk '{print $2}') &>> ${__dir}/logs/o2a-r.log
+                __ami_id=$(ec2-describe-images | grep ${image_uuid} | awk '{print $2}') &>> ${__dir}/logs/o2a-r.log
                 echo "$(date) [Result for ec2-describe-images]: ${__ami_id}" &>> ${__dir}/logs/o2a-r.log
             done
 
