@@ -18,6 +18,8 @@ mkdir -p ${__dir}/logs
 : ${AWS_REGION:?"Need to set AWS_REGION non-empty"}
 : ${SOURCE_CS:?"Need to set SOURCE_CS non-empty"}
 
+command -v glance > /dev/null 2>&1 || { echo "No 'glance'" >&2; exit 1; }
+
 command -v ec2-describe-images > /dev/null 2>&1 || { echo "No 'ec2-describe-images' installed" >&2; exit 1; }
 command -v ec2-describe-conversion-tasks > /dev/null 2>&1 || { echo "No 'ec2-describe-conversion-tasks' installed" >&2; exit 1; }
 
@@ -26,6 +28,12 @@ command -v ec2-create-image > /dev/null 2>&1 || { echo "No 'ec2-create-image' in
 command -v ec2-create-tags > /dev/null 2>&1 || { echo "No 'ec2-create-tags' installed" >&2; exit 1; }
 
 image_uuid=$1
+
+image_list=$(glance image-list) &>> ${__dir}/logs/o2a-c.log
+echo "$(date) [Result for glance image-list]: ${image_list}" &>> ${__dir}/logs/o2a-c.log
+
+image_name=$(echo "${image_list}" | grep ${image_uuid} | awk -F'|' '{print $3}' | sed -e 's/^ *//' -e 's/ *$//') &>> ${__dir}/logs/o2a-c.log
+echo "$(date) [Result for image_name]: ${image_name}" &>> ${__dir}/logs/o2a-c.log
 
 if [ -f /tmp/${image_uuid}.raw ]
 then
