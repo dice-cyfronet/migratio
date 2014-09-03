@@ -35,7 +35,17 @@ then
 
         if [ ! -z "${__output}" ]
         then
-            instance=$(echo ${__output} | cut -f 12 -d " ") &>> ${__dir}/logs/o2a-i.log
+            if [[ ${__output} == *Pending* ]]
+            then
+                instance=$(echo ${__output} | cut -f 12 -d " ") &>> ${__dir}/logs/o2a-i.log
+            elif [[ ${__output} == *Progress* ]]
+            then
+                instance=$(echo ${__output} | cut -f 13 -d " ") &>> ${__dir}/logs/o2a-i.log
+            elif [[ ${__output} == *complete* ]]
+            then
+                instance=$(echo ${__output} | cut -f 10 -d " ") &>> ${__dir}/logs/o2a-i.log
+            fi
+
             echo "$(date) [Result for instance]: ${instance}" &>> ${__dir}/logs/o2a-i.log
 
             until echo ${__output} | grep -E complete
