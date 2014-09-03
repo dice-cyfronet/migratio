@@ -48,6 +48,7 @@ then
         if [ ! -z "${__output}" ]
         then
             instance=$(echo ${__output} | cut -f 10 -d " ") &>> ${__dir}/logs/o2a-r.log
+            task_import=$(echo ${__output} | cut -f 4 -d " ") &>> ${__dir}/logs/o2a-r.log
             __output=$(ec2-create-image -n ${image_uuid} -d "${image_name}-${image_uuid}" ${instance}) &>> ${__dir}/logs/o2a-r.log
             echo "$(date) [Result for ec2-create-image]: ${__output}" &>> ${__dir}/logs/o2a-r.log
 
@@ -68,6 +69,9 @@ then
 
             __output=$(rm -f /tmp/${image_uuid}.raw) &>> ${__dir}/logs/o2a-r.log
             echo "$(date) [Result for rm]: ${__output}" &>> ${__dir}/logs/o2a-r.log
+
+            __output=$(ec2-delete-disk-image -t ${task_import})
+            echo "$(date) [Result for ec2-delete-disk-image]: ${__output}" &>> ${__dir}/logs/o2a-r.log
 
             echo "Registered image"
             exit 0
