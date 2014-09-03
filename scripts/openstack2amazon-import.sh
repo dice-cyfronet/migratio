@@ -30,7 +30,7 @@ then
 
     if [ ${check_remote} -eq 0 ]
     then
-        __output=$(ec2-describe-conversion-tasks | grep ${image_uuid}) &>> ${__dir}/logs/o2a-i.log
+        __output=$(ec2-describe-conversion-tasks | grep ${image_uuid} | sort -k6 | tail -n 1) &>> ${__dir}/logs/o2a-i.log
         echo "$(date) [Result for ec2-describe-conversion-tasks]: ${__output}" &>> ${__dir}/logs/o2a-i.log
 
         if [ ! -z "${__output}" ]

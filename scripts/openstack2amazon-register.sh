@@ -34,12 +34,13 @@ then
 
     if [ ${check_remote} -eq 0 ]
     then
-        __output=$(ec2-describe-conversion-tasks | grep ${image_uuid}) &>> ${__dir}/logs/o2a-r.log
+        __output=$(ec2-describe-conversion-tasks | grep ${image_uuid} | sort -k6 | tail -n 1) &>> ${__dir}/logs/o2a-r.log
         echo "$(date) [Result for ec2-describe-conversion-tasks]: ${__output}" &>> ${__dir}/logs/o2a-r.log
 
         if [ ! -z "${__output}" ]
         then
-            __output=$(ec2-create-image -n ${image_uuid} -d "${image_name}-${image_uuid}" ${instance})
+            instance=$(echo ${__output} | cut -f 10 -d " ") &>> ${__dir}/logs/o2a-r.log
+            __output=$(ec2-create-image -n ${image_uuid} -d "${image_name}-${image_uuid}" ${instance}) &>> ${__dir}/logs/o2a-r.log
             echo "$(date) [Result for ec2-create-image]: ${__output}" &>> ${__dir}/logs/o2a-r.log
 
             sleep 30
@@ -54,10 +55,10 @@ then
                 echo "$(date) [Result for ec2-describe-images]: ${__ami_id}" &>> ${__dir}/logs/o2a-r.log
             done
 
-            __output=$(ec2-create-tags ${__ami_id} --tag source_cs=${SOURCE_CS} --tag source_uuid=${image_uuid} --tag Name="${image_name}-${image_uuid}")
+            __output=$(ec2-create-tags ${__ami_id} --tag source_cs=${SOURCE_CS} --tag source_uuid=${image_uuid} --tag Name="${image_name}-${image_uuid}") &>> ${__dir}/logs/o2a-r.log
             echo "$(date) [Result for ec2-create-tags]: ${__output}" &>> ${__dir}/logs/o2a-r.log
 
-            __output=$(rm -f /tmp/${image_uuid}.raw)
+            __output=$(rm -f /tmp/${image_uuid}.raw) &>> ${__dir}/logs/o2a-r.log
             echo "$(date) [Result for rm]: ${__output}" &>> ${__dir}/logs/o2a-r.log
 
             echo "Registered image"

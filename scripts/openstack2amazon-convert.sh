@@ -37,7 +37,7 @@ then
 
     if [ ! -f /tmp/${image_uuid}.raw ]
     then
-        __output=$(sudo qemu-img convert -f qcow2 -O raw /var/lib/glance/images/${image_uuid} /tmp/${image_uuid}.raw)
+        __output=$(sudo qemu-img convert -f qcow2 -O raw /var/lib/glance/images/${image_uuid} /tmp/${image_uuid}.raw) &>> ${__dir}/logs/o2a-t.log
         echo "$(date) [Result for qemu-img convert]: ${__output}" &>> ${__dir}/logs/o2a-c.log
     fi
 
