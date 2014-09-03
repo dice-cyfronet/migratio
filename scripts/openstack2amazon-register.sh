@@ -67,11 +67,14 @@ then
             __output=$(ec2-create-tags ${__ami_id} --tag source_cs=${SOURCE_CS} --tag source_uuid=${image_uuid} --tag Name="${image_name}-${image_uuid}") &>> ${__dir}/logs/o2a-r.log
             echo "$(date) [Result for ec2-create-tags]: ${__output}" &>> ${__dir}/logs/o2a-r.log
 
-            __output=$(rm -f /tmp/${image_uuid}.raw) &>> ${__dir}/logs/o2a-r.log
+            __output=$(rm -f /tmp/${image_uuid}.raw*) &>> ${__dir}/logs/o2a-r.log
             echo "$(date) [Result for rm]: ${__output}" &>> ${__dir}/logs/o2a-r.log
 
             __output=$(ec2-delete-disk-image -t ${task_import} -o ${AWS_ACCESS_KEY} -w ${AWS_SECRET_KEY})
             echo "$(date) [Result for ec2-delete-disk-image]: ${__output}" &>> ${__dir}/logs/o2a-r.log
+
+            __output=$(ec2-terminate-instances ${instance}) &>> ${__dir}/logs/o2a-r.log
+            echo "$(date) [Result for ec2-terminate-instances]: ${__output}" &>> ${__dir}/logs/o2a-r.log
 
             echo "Registered image"
             exit 0
