@@ -32,12 +32,9 @@ echo "$(date) [Result for looking for ${image_uuid} in image_list]: ${check_loca
 
 if [ ${check_local} -eq 1 ]
 then
-    image_name=$(echo "${image_list}" | grep ${image_uuid} | awk -F'|' '{print $3}' | sed -e 's/^ *//' -e 's/ *$//') &>> ${__dir}/logs/o2a-c.log
-    echo "$(date) [Result for image_name]: ${image_name}" &>> ${__dir}/logs/o2a-c.log
-
     if [ ! -f /tmp/${image_uuid}.raw ]
     then
-        __output=$(sudo qemu-img convert -f qcow2 -O raw /var/lib/glance/images/${image_uuid} /tmp/${image_uuid}.raw) &>> ${__dir}/logs/o2a-t.log
+        __output=$(sudo qemu-img convert -f qcow2 -O raw /var/lib/glance/images/${image_uuid} /tmp/${image_uuid}.raw) &>> ${__dir}/logs/o2a-c.log
         echo "$(date) [Result for qemu-img convert]: ${__output}" &>> ${__dir}/logs/o2a-c.log
     fi
 

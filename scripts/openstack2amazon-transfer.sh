@@ -22,6 +22,9 @@ command -v ec2-import-instance > /dev/null 2>&1 || { echo "No 'ec2-import-instan
 
 image_uuid=$1
 
+image_list=$(glance image-list) &>> ${__dir}/logs/o2a-t.log
+echo "$(date) [Result for glance image-list]: ${image_list}" &>> ${__dir}/logs/o2a-t.log
+
 if [ -f /tmp/${image_uuid}.raw ]
 then
     check_remote=$(ec2-describe-images | grep IMAGE | grep ${image_uuid} | wc -l) &>> ${__dir}/logs/o2a-t.log
@@ -29,7 +32,10 @@ then
 
     if [ ${check_remote} -eq 0 ]
     then
-        __output=$(ec2-import-instance /tmp/${image_uuid}.raw -f RAW -b import-image-${image_uuid} -p Linux --region ${AWS_REGION} -t m3.medium -a x86_64 -d ${image_uuid} -o ${AWS_ACCESS_KEY} -w ${AWS_SECRET_KEY}) &>> ${__dir}/logs/o2a-t.log
+        image_name=$(echo "${image_list}" | grep ${image_uuid} | awk -F'|' '{print $3}' | sed -e 's/^ *//' -e 's/ *$//') &>> ${__dir}/logs/o2a-t.log
+        echo "$(date) [Result for image_name]: ${image_name}" &>> ${__dir}/logs/o2a-t.log
+
+        __output=$(ec2-import-instance /tmp/${image_uuid}.raw -f RAW -b import-image-${image_uuid} -p Linux --region ${AWS_REGION} -t m3.medium -a x86_64 -d "${image_name}-${image_uuid}" -o ${AWS_ACCESS_KEY} -w ${AWS_SECRET_KEY}) &>> ${__dir}/logs/o2a-t.log
         echo "$(date) [Result for ec2-import-instance]: ${__output}" &>> ${__dir}/logs/o2a-t.log
 
         sleep 30
