@@ -29,7 +29,7 @@ then
 
     if [ ${check_remote} -eq 0 ]
     then
-        __output=$(ec2-import-instance /tmp/${image_uuid}.raw -f RAW -b imported-images -p Linux --region ${AWS_REGION} -t m3.medium -a x86_64 -d ${image_uuid} -o ${AWS_ACCESS_KEY} -w ${AWS_SECRET_KEY}) &>> ${__dir}/logs/o2a-t.log
+        __output=$(ec2-import-instance /tmp/${image_uuid}.raw -f RAW -b import-image-${image_uuid} -p Linux --region ${AWS_REGION} -t m3.medium -a x86_64 -d ${image_uuid} -o ${AWS_ACCESS_KEY} -w ${AWS_SECRET_KEY}) &>> ${__dir}/logs/o2a-t.log
         echo "$(date) [Result for ec2-import-instance]: ${__output}" &>> ${__dir}/logs/o2a-t.log
 
         sleep 30

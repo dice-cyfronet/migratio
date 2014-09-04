@@ -73,8 +73,19 @@ then
             __output=$(ec2-delete-disk-image -t ${task_import} -o ${AWS_ACCESS_KEY} -w ${AWS_SECRET_KEY})
             echo "$(date) [Result for ec2-delete-disk-image]: ${__output}" &>> ${__dir}/logs/o2a-r.log
 
+            volume=$(ec2-describe-instances ${instance} | grep vol | awk '{print $3}') &>> ${__dir}/logs/o2a-r.log
+            echo "$(date) [Result for ec2-describe-instances]: ${volume}"
+
             __output=$(ec2-terminate-instances ${instance}) &>> ${__dir}/logs/o2a-r.log
             echo "$(date) [Result for ec2-terminate-instances]: ${__output}" &>> ${__dir}/logs/o2a-r.log
+
+            sleep 30
+
+            __output=$(ec2-delete-volume ${volume}) &>> ${__dir}/logs/o2a-r.log
+            echo "$(date) [Result for ec2-delete-volume]: ${__output}" &>> ${__dir}/logs/o2a-r.log
+
+            __output=$(aws s3 rm --recursive s3://import-image-${image_uuid/}) &>> ${__dir}/logs/o2a-r.log
+            echo "$(date) [Result for aws s3 rm]: ${__output}" &>> ${__dir}/logs/o2a-r.log
 
             echo "Registered image"
             exit 0
