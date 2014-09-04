@@ -84,7 +84,7 @@ then
             __output=$(ec2-delete-volume ${volume}) &>> ${__dir}/logs/o2a-r.log
             echo "$(date) [Result for ec2-delete-volume]: ${__output}" &>> ${__dir}/logs/o2a-r.log
 
-            __output=$(aws s3 rm --recursive s3://import-image-${image_uuid}/}) &>> ${__dir}/logs/o2a-r.log
+            __output=$(aws s3 rm --recursive s3://import-image-${image_uuid}/) &>> ${__dir}/logs/o2a-r.log
             echo "$(date) [Result for aws s3 rm]: ${__output}" &>> ${__dir}/logs/o2a-r.log
 
             echo "Registered image"
