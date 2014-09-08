@@ -15,22 +15,27 @@ Install additional packages (as root):
 
 Install ruby and bundler (as root):
 
-    mkdir /tmp/ruby && cd /tmp/ruby
+    mkdir /tmp/ruby
+    pushd /tmp/ruby
     curl --progress ftp://ftp.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz | tar xz
-    cd ruby-2.1.2
+    pushd /tmp/ruby/ruby-2.1.2
     ./configure --disable-install-rdoc
     make
     make install
     gem install bundler --no-ri --no-rdoc
+    popd
+    popd
 
 Install this software (as non-root):
 
-    git clone https://github.com/paoolo/migration-worker.git
-    cd migration-worker
-    cp config.yml.example config.yml
-    nano config.yml
+    git clone https://github.com/paoolo/migration-worker.git /home/atmosphere/migration-worker
+    cd /home/atmosphere/migration-worker
+    cp /home/atmosphere/migration-worker/config.yml.example /home/atmosphere/migration-worker/config.yml
+    nano /home/atmosphere/migration-worker/config.yml
     # set proper redis_url and name first row in queues with proper, unique name
+    pushd /home/atmosphere/migration-worker
     bundle install --path vendor/bundle
+    popd
 
 Enable upstart for non-root user (as root):
 
@@ -69,13 +74,13 @@ It should looks like this:
 
 Install upstart scripts (as non-root, inside migration-worker directory):
 
-    mkdir -p ~/.init
-    cp -i init/*.conf ~/.init/
-    nano ~/.init/migration.conf
+    mkdir -p /home/atmosphere/.init
+    cp -i /home/atmosphere/migration-worker/init/*.conf /home/atmosphere/.init/
+    nano /home/atmosphere/.init/migration.conf
     # set proper directory for migration-worker/log
-    nano ~/.init/migration-worker-1.conf
+    nano /home/atmosphere/.init/migration-worker-1.conf
     # set proper directory for migration-worker/ and migration-worker/log/
-    cat >> ~/.bash_profile <<EOL
+    cat >> /home/atmosphere/.bash_profile <<EOL
     if [ ! -f /var/run/user/\$(id -u)/upstart/sessions/*.session ]
     then
         /sbin/init --user --confdir \${HOME}/.init &
@@ -86,13 +91,15 @@ Install upstart scripts (as non-root, inside migration-worker directory):
        export \$(cat /var/run/user/\$(id -u)/upstart/sessions/*.session)
     fi
     EOL
-    # you need to re-login to apply changes in ~/.bash_profile
+    # you need to re-login to apply changes in /home/atmosphere/.bash_profile
 
 ## Usage
 
 First time run (as non-root, inside migration-worker directory):
 
+    pushd /home/atmosphere/migration-worker
     bundle exec ./bin/run
+    popd
 
 Normal run (as non-root):
 
