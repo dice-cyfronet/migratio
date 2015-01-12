@@ -17,7 +17,7 @@ Install ruby and bundler (as root):
 
     mkdir /tmp/ruby
     pushd /tmp/ruby
-    curl --progress ftp://ftp.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz | tar xz
+    curl --progress http://ftp.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz | tar xz
     pushd /tmp/ruby/ruby-2.1.2
     ./configure --disable-install-rdoc
     make
@@ -31,15 +31,19 @@ Install this software (as non-root):
     git clone https://github.com/paoolo/migration-worker.git /home/atmosphere/migration-worker
     cd /home/atmosphere/migration-worker
     cp /home/atmosphere/migration-worker/config.yml.example /home/atmosphere/migration-worker/config.yml
+
+Edit config file, set proper redis_url and name first row in queues with proper, unique name:
+
     nano /home/atmosphere/migration-worker/config.yml
-    # set proper redis_url and name first row in queues with proper, unique name
+
+Install gems:
+
     pushd /home/atmosphere/migration-worker
     bundle install --path vendor/bundle
     popd
 
 Enable upstart for non-root user (as root):
 
-    # modify /etc/dbus-1/system.d/Upstart.conf
     nano /etc/dbus-1/system.d/Upstart.conf
 
 It should looks like this:
@@ -76,10 +80,14 @@ Install upstart scripts (as non-root, inside migration-worker directory):
 
     mkdir -p /home/atmosphere/.init
     cp -i /home/atmosphere/migration-worker/init/*.conf /home/atmosphere/.init/
+
+Set proper directory for migration-worker/ and migration-worker/log/:
+
     nano /home/atmosphere/.init/migration.conf
-    # set proper directory for migration-worker/log
     nano /home/atmosphere/.init/migration-worker-1.conf
-    # set proper directory for migration-worker/ and migration-worker/log/
+
+Update profile files (eg. ``.bash_profile``):
+
     cat >> /home/atmosphere/.bash_profile <<EOL
     if [ ! -f /var/run/user/\$(id -u)/upstart/sessions/*.session ]
     then
