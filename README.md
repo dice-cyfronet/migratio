@@ -1,8 +1,16 @@
-# Migration::Worker
+# Migratio
 
 This gem is used to perform virtual machine template migration between sites.
 
-## Installation
+## Requirements
+
+**This project is designed for Linux operating systems.**
+
+- Linux (tested on Ubuntu)
+- Ruby 2.0+
+- Redis (can be installed on separate server)
+
+## Packages / Dependencies
 
 Update your system (as root):
 
@@ -13,7 +21,7 @@ Install additional packages (as root):
 
     aptitude install g++ make autoconf bison build-essential libssl-dev libyaml-dev libreadline6 libreadline6-dev zlib1g zlib1g-dev
 
-Install ruby and bundler (as root):
+Install ``ruby`` and ``bundler`` (as root):
 
     mkdir /tmp/ruby
     pushd /tmp/ruby
