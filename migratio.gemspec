@@ -4,13 +4,13 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'migration/worker/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'migration-worker'
+  spec.name          = 'migratio'
   spec.version       = Migration::Worker::VERSION
   spec.authors       = ['Paweł Suder']
   spec.email         = ['pawel@suder.info']
   spec.description   = %q{Migration worker}
   spec.summary       = %q{Worker is responsible for migrating virtual machine templates between sites}
-  spec.homepage      = ''
+  spec.homepage      = 'https://github.com/dice-cyfronet/migratio'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($/)
