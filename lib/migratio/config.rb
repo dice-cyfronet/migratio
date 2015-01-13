@@ -2,7 +2,7 @@ require 'yaml'
 
 ROOT_PATH = File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
 
-module Migration
+module Migratio
   class Config
     def initialize(path=nil)
       config_path = path || default_config_path

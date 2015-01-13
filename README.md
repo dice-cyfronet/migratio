@@ -36,17 +36,17 @@ Install ``ruby`` and ``bundler`` (as root):
 
 Install this software (as non-root):
 
-    git clone https://github.com/paoolo/migration-worker.git /home/atmosphere/migration-worker
-    cd /home/atmosphere/migration-worker
-    cp /home/atmosphere/migration-worker/config.yml.example /home/atmosphere/migration-worker/config.yml
+    git clone https://github.com/paoolo/migratio.git /home/atmosphere/migratio
+    cd /home/atmosphere/migratio
+    cp /home/atmosphere/migratio/config.yml.example /home/atmosphere/migratio/config.yml
 
-Edit config file, set proper redis_url and name first row in queues with proper, unique name:
+Edit config file, set proper ``redis_url`` and name first row in queues with proper, unique name:
 
-    nano /home/atmosphere/migration-worker/config.yml
+    nano /home/atmosphere/migratio/config.yml
 
 Install gems:
 
-    pushd /home/atmosphere/migration-worker
+    pushd /home/atmosphere/migratio
     bundle install --path vendor/bundle
     popd
 
@@ -84,15 +84,15 @@ It should looks like this:
       </policy>
     </busconfig>
 
-Install upstart scripts (as non-root, inside migration-worker directory):
+Install upstart scripts (as non-root, inside migratio directory):
 
     mkdir -p /home/atmosphere/.init
-    cp -i /home/atmosphere/migration-worker/init/*.conf /home/atmosphere/.init/
+    cp -i /home/atmosphere/migratio/support/upstart/*.conf /home/atmosphere/.init/
 
-Set proper directory for migration-worker/ and migration-worker/log/:
+Set proper directory for ``migratio/`` and ``migratio/log/``:
 
     nano /home/atmosphere/.init/migration.conf
-    nano /home/atmosphere/.init/migration-worker-1.conf
+    nano /home/atmosphere/.init/migratio-1.conf
 
 Update profile files (eg. ``.bash_profile``):
 
@@ -111,9 +111,9 @@ Update profile files (eg. ``.bash_profile``):
 
 ## Usage
 
-First time run (as non-root, inside migration-worker directory):
+First time run (as non-root, inside ``migratio/`` directory):
 
-    pushd /home/atmosphere/migration-worker
+    pushd /home/atmosphere/migratio
     bundle exec ./bin/run
     popd
 

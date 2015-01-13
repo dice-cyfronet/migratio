@@ -1,6 +1,6 @@
 require_relative 'migrator'
 
-module Migration
+module Migratio
   module Worker
     class OpenstackAmazonMigrator < Migrator
 

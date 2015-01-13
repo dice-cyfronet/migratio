@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'migration/worker/version'
+require 'migratio/worker/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'migratio'
-  spec.version       = Migration::Worker::VERSION
+  spec.version       = Migratio::Worker::VERSION
   spec.authors       = ['Paweł Suder']
   spec.email         = ['pawel@suder.info']
   spec.description   = %q{Migration worker}

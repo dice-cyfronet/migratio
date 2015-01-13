@@ -1,6 +1,6 @@
 require 'sidekiq'
 
-module Migration
+module Migratio
   module Worker
     class Migrator
       include Sidekiq::Worker
@@ -25,7 +25,7 @@ module Migration
       end
 
       def config
-        @config ||= Migration::Worker.config
+        @config ||= Migratio::Worker.config
       end
     end
   end

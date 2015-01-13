@@ -2,10 +2,10 @@ require 'sidekiq'
 
 require_relative 'config'
 
-module Migration
+module Migratio
   module Worker
     def self.config
-      @@config ||= Migration::Config.new @config_path
+      @@config ||= Migratio::Config.new @config_path
     end
 
     def self.config_path
