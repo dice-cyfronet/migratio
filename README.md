@@ -91,8 +91,8 @@ Install upstart scripts (as non-root, inside migratio directory):
 
 Set proper directory for ``migratio/`` and ``migratio/log/``:
 
-    nano /home/atmosphere/.init/migration.conf
-    nano /home/atmosphere/.init/migratio-1.conf
+    nano /home/atmosphere/.init/migratio.conf
+    nano /home/atmosphere/.init/migratio-worker-1.conf
 
 Update profile files (eg. ``.bash_profile``):
 
