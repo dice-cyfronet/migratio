@@ -36,7 +36,7 @@ Install ``ruby`` and ``bundler`` (as root):
 
 Install this software (as non-root):
 
-    git clone https://github.com/paoolo/migratio.git /home/atmosphere/migratio
+    git clone https://github.com/dice-cyfronet/migratio.git /home/atmosphere/migratio
     cd /home/atmosphere/migratio
     cp /home/atmosphere/migratio/config.yml.example /home/atmosphere/migratio/config.yml
 
