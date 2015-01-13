@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require 'sidekiq'
-require_relative '../lib/migration/worker'
+require_relative '../lib/migratio/worker'
 
-RUNNER_PATH = File.join(ROOT_PATH, 'lib', 'migration', 'runner.rb')
+RUNNER_PATH = File.join(ROOT_PATH, 'lib', 'migratio', 'runner.rb')
 
 def queue
-  "migration_#{Migration::Worker.config.name}"
+  "migration_#{Migratio::Worker.config.name}"
 end
 
 system "sidekiq -q #{queue} -c 1 -r #{RUNNER_PATH}"

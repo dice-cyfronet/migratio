@@ -114,16 +114,16 @@ Update profile files (eg. ``.bash_profile``):
 First time run (as non-root, inside ``migratio/`` directory):
 
     pushd /home/atmosphere/migratio
-    bundle exec ./bin/run
+    bundle exec ./bin/migratio-run
     popd
 
 Normal run (as non-root):
 
-    start migration
+    start migratio
 
 Stop (as non-root):
 
-    stop migration
+    stop migratio
 
 ## Contributing
 
