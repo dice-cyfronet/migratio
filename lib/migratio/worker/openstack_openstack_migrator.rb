@@ -9,7 +9,7 @@ module Migratio
         output = `#{dir}/../../../scripts/openstack2openstack-transfer.sh "#{image_uuid}" "#{dir}/../../../config/#{compute_site}.conf"`
         Sidekiq::Client.push(
           'queue' => 'feedback',
-          'class' => 'UpdateMigrationJobStatusWorker',
+          'class' => 'Atmosphere::UpdateMigrationJobStatusWorker',
           'args' => [image_uuid, config.name, compute_site, output])
         if $?.exitstatus == 1
           return
@@ -18,7 +18,7 @@ module Migratio
         output = `#{dir}/../../../scripts/openstack2openstack-register.sh "#{image_uuid}" "#{dir}/../../../config/#{compute_site}.conf"`
         Sidekiq::Client.push(
           'queue' => 'feedback',
-          'class' => 'UpdateMigrationJobStatusWorker',
+          'class' => 'Atmosphere::UpdateMigrationJobStatusWorker',
           'args' => [image_uuid, config.name, compute_site, output])
       end
     end
