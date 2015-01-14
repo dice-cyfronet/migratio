@@ -124,6 +124,8 @@ Create file `~/.creds` with credentials used in OpenStack and Amazon. Eg.
     export AWS_ACCESS_KEY=aws_access_key
     export AWS_SECRET_KEY=aws_secret_key
 
+User who runs `migratio` need to be assigned to `glance` group.
+
 Create configuration files per Compute Site in directory `config/`. Configuration file name must be identical with ComputeSite `site_id` property. Use suffix `.conf`. See [config/](config/).
 
 For OpenStack:
