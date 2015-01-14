@@ -21,7 +21,7 @@ Install additional packages (as root):
 
     aptitude install g++ make autoconf bison build-essential libssl-dev libyaml-dev libreadline6 libreadline6-dev zlib1g zlib1g-dev
 
-Install ``ruby`` and ``bundler`` (as root):
+Install `ruby` and `bundler` (as root):
 
     mkdir /tmp/ruby
     pushd /tmp/ruby
@@ -39,10 +39,6 @@ Install this software (as non-root):
     git clone https://github.com/dice-cyfronet/migratio.git /home/atmosphere/migratio
     cd /home/atmosphere/migratio
     cp /home/atmosphere/migratio/config.yml.example /home/atmosphere/migratio/config.yml
-
-Edit config file, set proper ``redis_url`` and name first row in queues with proper, unique name:
-
-    nano /home/atmosphere/migratio/config.yml
 
 Install gems:
 
@@ -89,12 +85,12 @@ Install upstart scripts (as non-root, inside migratio directory):
     mkdir -p /home/atmosphere/.init
     cp -i /home/atmosphere/migratio/support/upstart/*.conf /home/atmosphere/.init/
 
-Set proper directory for ``migratio/`` and ``migratio/log/``:
+Set proper directory for `migratio/` and `migratio/log/`:
 
     nano /home/atmosphere/.init/migratio.conf
     nano /home/atmosphere/.init/migratio-worker-1.conf
 
-Update profile files (eg. ``.bash_profile``):
+Update profile files (eg. `.bash_profile`):
 
     cat >> /home/atmosphere/.bash_profile <<EOL
     if [ ! -f /var/run/user/\$(id -u)/upstart/sessions/*.session ]
@@ -109,9 +105,42 @@ Update profile files (eg. ``.bash_profile``):
     EOL
     # you need to re-login to apply changes in /home/atmosphere/.bash_profile
 
+## Configuration
+
+Edit config file. Set proper `redis_url` and `name`:
+
+    nano /home/atmosphere/migratio/config.yml
+
+`name` must be identical with ComputeSite `site_id` property. Eg. for ComputeSite with `name` `Local` and `site_id` `local`, `name` used in configuration is `local`, not `Local`.
+
+Create file `~/.creds` with credentials used in OpenStack and Amazon. Eg.
+
+    export OS_TENANT_NAME=openstack_tenant
+    export OS_USERNAME=openstack_username_for_tenant
+    export OS_PASSWORD=openstack_password_for_tenant
+    export OS_AUTH_URL="http://127.0.0.1:5000/v2.0/" # default value for OpenStack installation
+    export IMAGES_DIR=/var/lib/glance/images # default value for OpenStack installation
+    export SOURCE_CS=atmosphere_local_compute_site_site_id_property
+    export AWS_ACCESS_KEY=aws_access_key
+    export AWS_SECRET_KEY=aws_secret_key
+
+Create configuration files per Compute Site in directory `config/`. Configuration file name must be identical with ComputeSite `site_id` property. Use suffix `.conf`. See [config/](config/).
+
+For OpenStack:
+
+    export EXTERNAL_USER=external_username
+    export EXTERNAL_HOST=external_ip_or_hostname
+
+Create account `external_username` and allow login without password (using ssh authorized keys) for user which is running `migratio`. Allow `external_username` to use OpenStack on external compute site.
+
+For Amazon:
+
+    export AWS_REGION=eu-west-1 # or eu-central-1, us-east-1, us-west-1, etc.
+    export EC2_URL=https://ec2.eu-west-1.amazonaws.com
+
 ## Usage
 
-First time run (as non-root, inside ``migratio/`` directory):
+First time run (as non-root, inside `migratio/` directory):
 
     pushd /home/atmosphere/migratio
     bundle exec ./bin/migratio-run
