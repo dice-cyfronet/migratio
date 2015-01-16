@@ -110,25 +110,24 @@ Update profile files (eg. `.bash_profile`):
 
 ### Amazon EC2 CLI Tools
 
- - Download Amazon EC2 CLI Tools:
+Download Amazon EC2 CLI Tools:
 
     wget http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip
 
-- Unzip downloaded archive.
-- Copy all executable files (unix scripts) from `bin/` to `/usr/bin`.
-- Copy all libraries (jars) from `lib/` to `/usr/lib`.
-- Add to `/etc/environment` following lines:
+Copy all executable files (unix scripts) from `bin/` to `/usr/bin`. Copy all libraries (jars) from `lib/` to `/usr/lib`.
+ 
+Add to `/etc/environment` following lines:
 
     EC2_HOME=/usr
     JAVA_HOME=/usr/lib/jvm/default-java
 
 ### AWS CLI Tools
 
- - Install `awscli` as `root`
+Install `awscli` as `root`
 
     pip install awscli
 
- - Configure `awscli` for user who run `migratio`
+Configure `awscli` for user who run `migratio`
 
     aws configure
 
