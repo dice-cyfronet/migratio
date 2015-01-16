@@ -10,7 +10,8 @@ This gem is used to perform virtual machine template migration between sites.
 - Ruby 2.0+
 - Redis (can be installed on separate server)
 - OpenStack (with `nova` commands available for user who runs `migratio`)
-- Amazon EC2 CLI Tools (with `ec2-*` commands available for user who runs `migratio`)
+- Amazon EC2 CLI Tools (with `ec2-*` commands available for user who runs `migratio`, needs: Java Runtime Environment)
+- AWS CLI Tools (with `aws` command, needs: python and pip)
 
 ## Packages / Dependencies
 
@@ -120,6 +121,16 @@ Update profile files (eg. `.bash_profile`):
 
     EC2_HOME=/usr
     JAVA_HOME=/usr/lib/jvm/default-java
+
+### AWS CLI Tools
+
+ - Install `awscli` as `root`
+
+    pip install awscli
+
+ - Configure `awscli` for user who run `migratio`
+
+    aws configure
 
 ## Configuration
 
