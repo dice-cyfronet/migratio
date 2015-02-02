@@ -3,22 +3,22 @@
 [![Code Climate](https://codeclimate.com/github/dice-cyfronet/migratio/badges/gpa.svg?style=flat)](https://codeclimate.com/github/dice-cyfronet/migratio)
 [![Dependency Status](https://gemnasium.com/dice-cyfronet/migratio.svg)](https://gemnasium.com/dice-cyfronet/migratio)
 
-This gem is used to perform virtual machine template migration between sites.
+This gem is used to perform virtual machine template migration between Compute Sites managed by [Atmosphere](https://github.com/dice-cyfronet/atmosphere).
 
 ## Requirements
 
 **This project is designed for Linux operating systems.**
 
-- Linux (tested on Ubuntu)
-- Ruby 2.0+
-- Redis (can be installed on separate server)
-- OpenStack (with `nova` commands available for user who runs `migratio`)
-- Amazon EC2 CLI Tools (with `ec2-*` commands available for user who runs `migratio`, needs: Java Runtime Environment)
-- AWS CLI Tools (with `aws` command, needs: python and pip)
+- *Linux* (tested on Ubuntu)
+- *Ruby* 2.0+
+- *Redis* (can be installed on separate server)
+- *OpenStack* (with `nova` commands available for user who runs *migratio*)
+- *Amazon EC2 CLI Tools* (with `ec2-*` commands available for user who runs `migratio`, needs: *Java Runtime Environment*)
+- *AWS CLI Tools* (with `aws` command, needs: *python* and *pip*)
 
 ## Packages / Dependencies
 
-Update your system (as root):
+Update your system (as root, **optional**):
 
     aptitude update
     aptitude upgrade
@@ -43,10 +43,11 @@ Install `ruby` and `bundler` (as root):
 Install this software (as non-root):
 
     git clone https://github.com/dice-cyfronet/migratio.git /home/atmosphere/migratio
-    cd /home/atmosphere/migratio
+    pushd /home/atmosphere/migratio
     cp /home/atmosphere/migratio/config.yml.example /home/atmosphere/migratio/config.yml
+    popd
 
-Install gems:
+Install gems (as non-root):
 
     pushd /home/atmosphere/migratio
     bundle install --path vendor/bundle
@@ -86,7 +87,7 @@ It should looks like this:
       </policy>
     </busconfig>
 
-Install upstart scripts (as non-root, inside migratio directory):
+Install *Upstart* scripts (as non-root):
 
     mkdir -p /home/atmosphere/.init
     cp -i /home/atmosphere/migratio/support/upstart/*.conf /home/atmosphere/.init/
@@ -113,7 +114,7 @@ Update profile files (eg. `.bash_profile`):
 
 ### Amazon EC2 CLI Tools
 
-Download Amazon EC2 CLI Tools:
+Download *Amazon EC2 CLI Tools*:
 
     wget http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip
 
@@ -126,11 +127,11 @@ Add to `/etc/environment` following lines:
 
 ### AWS CLI Tools
 
-Install `awscli` as `root`
+Install *awscli* as `root`
 
     pip install awscli
 
-Configure `awscli` for user who run `migratio`
+Configure *awscli* for user who run *migratio*
 
     aws configure
 
@@ -140,9 +141,9 @@ Edit config file. Set proper `redis_url` and `name`:
 
     nano /home/atmosphere/migratio/config.yml
 
-`name` must be identical with ComputeSite `site_id` property. Eg. for ComputeSite with `name` `Local` and `site_id` `local`, `name` used in configuration is `local`, not `Local`.
+`name` must be identical with *ComputeSite* `site_id` property. Eg. for *ComputeSite* with `name` `Local` and `site_id` `local`, `name` used in configuration is `local`, not `Local`.
 
-Create file `~/.creds` with credentials used in OpenStack and Amazon. Eg.
+Create file `~/.creds` with credentials used in *OpenStack* and *Amazon*. Eg.
 
     export OS_TENANT_NAME=openstack_tenant
     export OS_USERNAME=openstack_username_for_tenant
@@ -153,7 +154,7 @@ Create file `~/.creds` with credentials used in OpenStack and Amazon. Eg.
     export AWS_ACCESS_KEY=aws_access_key
     export AWS_SECRET_KEY=aws_secret_key
 
-User who runs `migratio` need to be assigned to `glance` group. User running `migratio` need to be allow in `visudo` to run `qemu-img`.
+User who runs *migratio* need to be assigned to `glance` group. User running *migratio* need to be allow in `visudo` to run `qemu-img`.
 
     atmosphere ALL=(root) NOPASSWD: /usr/bin/qemu-img
 
@@ -164,7 +165,7 @@ For OpenStack:
     export EXTERNAL_USER=external_username
     export EXTERNAL_HOST=external_ip_or_hostname
 
-Create account `external_username` and allow login without password (using ssh authorized keys) for user which is running `migratio`. Allow `external_username` to use OpenStack on external compute site.
+Create account `external_username` on `external_ip_or_hostname` and allow login onto `external_ip_or_hostname` without password (using *ssh* authorized keys) for user which is running `migratio`. Allow `external_username` to use *OpenStack* on external compute site on remote site (using *nova* credentials).
 
 For Amazon:
 
