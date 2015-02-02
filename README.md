@@ -5,7 +5,19 @@
 
 This gem is used to perform virtual machine template migration between Compute Sites managed by [Atmosphere](https://github.com/dice-cyfronet/atmosphere).
 
-## Requirements
+## Usage
+
+This application will be used in two ways:
+
+* as a standalone application, on *Compute Site*, mainly on *OpenStack* `head-node` or any other `node` which is avaiable to access:
+  * *Nova* API client
+  * *Glance* images repository directory
+  * other *Compute Site*
+* as a gem inside *Atmosphere* application (included!)
+
+## Installation
+
+### Requirements
 
 **This project is designed for Linux operating systems.**
 
@@ -16,7 +28,7 @@ This gem is used to perform virtual machine template migration between Compute S
 - *Amazon EC2 CLI Tools* (with `ec2-*` commands available for user who runs `migratio`, needs: *Java Runtime Environment*)
 - *AWS CLI Tools* (with `aws` command, needs: *python* and *pip*)
 
-## Packages / Dependencies
+### Packages / Dependencies
 
 Update your system (as root, **optional**):
 
@@ -112,7 +124,7 @@ Update profile files (eg. `.bash_profile`):
     EOL
     # you need to re-login to apply changes in /home/atmosphere/.bash_profile
 
-### Amazon EC2 CLI Tools
+#### Amazon EC2 CLI Tools
 
 Download *Amazon EC2 CLI Tools*:
 
@@ -125,7 +137,7 @@ Add to `/etc/environment` following lines:
     EC2_HOME=/usr
     JAVA_HOME=/usr/lib/jvm/default-java
 
-### AWS CLI Tools
+#### AWS CLI Tools
 
 Install *awscli* as `root`
 
@@ -135,7 +147,7 @@ Configure *awscli* for user who run *migratio*
 
     aws configure
 
-## Configuration
+### Configuration
 
 Edit config file. Set proper `redis_url` and `name`:
 
@@ -172,7 +184,7 @@ For Amazon:
     export AWS_REGION=eu-west-1 # or eu-central-1, us-east-1, us-west-1, etc.
     export EC2_URL=https://ec2.eu-west-1.amazonaws.com
 
-## Usage
+### Run
 
 First time run (as non-root, inside `migratio/` directory):
 
