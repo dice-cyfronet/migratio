@@ -1,6 +1,7 @@
 # Migratio
 
 [![Code Climate](https://codeclimate.com/github/dice-cyfronet/migratio/badges/gpa.svg?style=flat)](https://codeclimate.com/github/dice-cyfronet/migratio)
+[![Dependency Status](https://gemnasium.com/dice-cyfronet/migratio.svg)](https://gemnasium.com/dice-cyfronet/migratio)
 
 This gem is used to perform virtual machine template migration between sites.
 
