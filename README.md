@@ -12,8 +12,9 @@ This application will be used in two ways:
 * as a standalone application, on *Compute Site*, mainly on *OpenStack* `head-node` or any other `node` which is avaiable to access:
   * *Nova* API client
   * *Glance* images repository directory
-  * other *Compute Site*
-* as a gem inside *Atmosphere* application (included!)
+  * *Qemu* image tools
+  * other *Compute Site* via *ssh/rsync* with *Nova* and *Glance* services
+* as a gem inside *Atmosphere* service
 
 ## Installation
 
@@ -24,9 +25,10 @@ This application will be used in two ways:
 - *Linux* (tested on Ubuntu)
 - *Ruby* 2.0+
 - *Redis* (can be installed on separate server)
-- *OpenStack* (with `nova` commands available for user who runs *migratio*)
+- *OpenStack* (with `nova` and `glance` commands available for user who runs *migratio* and runs remote commands on external site)
 - *Amazon EC2 CLI Tools* (with `ec2-*` commands available for user who runs `migratio`, needs: *Java Runtime Environment*)
 - *AWS CLI Tools* (with `aws` command, needs: *python* and *pip*)
+- Tools like `ssh`, `rsync`
 
 ### Packages / Dependencies
 
@@ -35,11 +37,11 @@ Update your system (as root, **optional**):
     aptitude update
     aptitude upgrade
 
-Install additional packages (as root):
+Install additional packages to install `ruby` (as root, **optional**):
 
     aptitude install g++ make autoconf bison build-essential libssl-dev libyaml-dev libreadline6 libreadline6-dev zlib1g zlib1g-dev
 
-Install `ruby` and `bundler` (as root):
+Install `ruby` and `bundler` (as root, **optional**):
 
     mkdir /tmp/ruby
     pushd /tmp/ruby
@@ -153,7 +155,7 @@ Edit config file. Set proper `redis_url` and `name`:
 
     nano /home/atmosphere/migratio/config.yml
 
-`name` must be identical with *ComputeSite* `site_id` property. Eg. for *ComputeSite* with `name` `Local` and `site_id` `local`, `name` used in configuration is `local`, not `Local`.
+**Important!** `name` must be identical with *ComputeSite* `site_id` property. Eg. for *ComputeSite* with `name` `Local` and `site_id` `local`, `name` used in configuration is `local`, not `Local`.
 
 Create file `~/.creds` with credentials used in *OpenStack* and *Amazon*. Eg.
 
