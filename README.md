@@ -202,6 +202,30 @@ Stop (as non-root):
 
     stop migratio
 
+### Log'n'roll
+
+Use *logrotate* to roll generated logs. Example configuration for *logrotate*
+
+    # Migratio logrotate settings
+    # based on: http://stackoverflow.com/a/4883967
+    
+    /home/atmosphere/migratio/log/*.log {
+        daily
+        missingok
+        rotate 90
+        compress
+        notifempty
+        copytruncate
+    }
+    /home/atmosphere/migratio/scripts/logs/*.log {
+        daily
+        missingok
+        rotate 90
+        compress
+        notifempty
+        copytruncate
+    }
+
 ## Contributing
 
 1. Fork it!
