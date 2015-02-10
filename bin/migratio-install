@@ -1,0 +1,36 @@
+#!/bin/bash
+
+export __dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export __dir="$(dirname ${__dir})"
+
+pushd ${__dir} 2>&1 >> /dev/null
+    bundle install
+popd 2>&1 >> /dev/null
+
+echo "====="
+
+mkdir -p ${HOME}/.init
+cp -i ${__dir}/support/upstart/*.conf ${HOME}/.init/
+
+sed -i "s@path_to_migratio@${__dir}@g" ${HOME}/.init/migratio.conf
+sed -i "s@user_name@${USER}@g" ${HOME}/.init/migratio.conf
+
+sed -i "s@path_to_migratio@${__dir}@g" ${HOME}/.init/migratio-worker-1.conf
+sed -i "s@user_name@${USER}@g" ${HOME}/.init/migratio-worker-1.conf
+sed -i "s@user_home@${HOME}@g" ${HOME}/.init/migratio-worker-1.conf
+
+echo "====="
+
+echo "Show file ${HOME}/.init/migratio.conf"
+echo "-----"
+cat ${HOME}/.init/migratio.conf
+echo "====="
+
+echo "Show file ${HOME}/.init/migratio-worker.conf"
+echo "-----"
+cat ${HOME}/.init/migratio-worker.conf
+echo "====="
+
+echo "Show file ${HOME}/.init/migratio-worker-1.conf"
+echo "-----"
+cat ${HOME}/.init/migratio-worker-1.conf
