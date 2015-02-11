@@ -237,6 +237,8 @@ Diagrams repesenting steps in migrating
 
 ![From OpenStack to Amazon](docs/openstack2amazon.png)
 
+Create using Gliffy.
+
 ## Contributing
 
 1. Fork it!
