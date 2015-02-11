@@ -233,6 +233,10 @@ Diagrams repesenting steps in migrating
 * from OpenStack to OpenStack Compute Site
 * from OpenStack to Amazon Compute Site
 
+![From OpenStack to OpenStack](docs/openstack2openstack.png)
+
+![From OpenStack to Amazon](docs/openstack2amazon.png)
+
 ## Contributing
 
 1. Fork it!
