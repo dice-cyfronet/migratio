@@ -226,6 +226,13 @@ Use *logrotate* to roll generated logs. Example configuration for *logrotate*
         copytruncate
     }
 
+## Flow
+
+Diagrams repesenting steps in migrating
+
+* from OpenStack to OpenStack Compute Site
+* from OpenStack to Amazon Compute Site
+
 ## Contributing
 
 1. Fork it!
