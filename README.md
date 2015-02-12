@@ -237,6 +237,15 @@ Diagrams repesenting migration steps
 
 ![From OpenStack to Amazon](docs/openstack2amazon.png)
 
+Legend:
+
+* local operation - blue border
+* remote operation - red border
+* read/get operation - blue background
+* check operation - yellow background
+* error with error operation - red background
+* modify operation / action - green background
+
 Created using [Gliffy](http://www.gliffy.com/).
 
 ## Contributing
