@@ -9,12 +9,12 @@ This application provides service which allow performing virtual machine templat
 
 This application will be used in two ways:
 
-* as a standalone application, on *Compute Site*, mainly on *OpenStack* `head-node` or any other `node` which is avaiable to access:
+* as a standalone application, on *Compute Site*, mainly on *OpenStack* `head-node` or any other `node` which can access the following:
   * *Nova* API client
-  * *Glance* images repository directory
+  * *Glance* image repository
   * *Qemu* image tools
-  * other *Compute Site* via *ssh/rsync* with *Nova* and *Glance* services
-* as a gem inside *Atmosphere* service
+  * target *Compute Site* via *ssh/rsync* with *Nova* and *Glance* services
+* as a gem inside the *Atmosphere* service
 
 ## Installation
 
@@ -26,9 +26,9 @@ This application will be used in two ways:
 - *Ruby* 2.0+
 - *Redis* (can be installed on separate server)
 - *OpenStack* (with `nova` and `glance` commands available for user who runs *migratio* and runs remote commands on external site)
-- *Amazon EC2 CLI Tools* (with `ec2-*` commands available for user who runs `migratio`, needs: *Java Runtime Environment*)
-- *AWS CLI Tools* (with `aws` command, needs: *python* and *pip*)
-- Tools like `ssh`, `rsync`
+- *Amazon EC2 CLI Tools* (with `ec2-*` commands available for user who runs `migratio`; requires: *Java Runtime Environment*)
+- *AWS CLI Tools* (with `aws` command, requires: *python* and *pip*)
+- Tools such as `ssh`, `rsync`
 
 ### Packages / Dependencies
 
@@ -37,7 +37,7 @@ Update your system (as root, **optional**):
     aptitude update
     aptitude upgrade
 
-Install additional packages to install `ruby` (as root, **optional**):
+Install additional packages required by `ruby` (as root, **optional**):
 
     aptitude install g++ make autoconf bison build-essential libssl-dev libyaml-dev libreadline6 libreadline6-dev zlib1g zlib1g-dev
 
@@ -71,7 +71,7 @@ Enable upstart for non-root user (as root):
 
     nano /etc/dbus-1/system.d/Upstart.conf
 
-It should looks like this:
+The configuration file should look like this:
 
     <?xml version="1.0" encoding="UTF-8" ?>
     <!DOCTYPE busconfig PUBLIC
@@ -124,7 +124,7 @@ Update profile files (eg. `.bash_profile`):
        export \$(cat /var/run/user/\$(id -u)/upstart/sessions/*.session)
     fi
     EOL
-    # you need to re-login to apply changes in /home/atmosphere/.bash_profile
+    # you need to log in again to apply changes in /home/atmosphere/.bash_profile
 
 #### Amazon EC2 CLI Tools
 
@@ -134,7 +134,7 @@ Download *Amazon EC2 CLI Tools*:
 
 Copy all executable files (unix scripts) from `bin/` to `/usr/bin`. Copy all libraries (jars) from `lib/` to `/usr/lib`.
  
-Add to `/etc/environment` following lines:
+Add the following lines to `/etc/environment`:
 
     EC2_HOME=/usr
     JAVA_HOME=/usr/lib/jvm/default-java
@@ -145,7 +145,7 @@ Install *awscli* as `root`
 
     pip install awscli
 
-Configure *awscli* for user who run *migratio*
+Configure *awscli* for the user who runs *migratio*
 
     aws configure
 
@@ -155,9 +155,9 @@ Edit config file. Set proper `redis_url` and `name`:
 
     nano /home/atmosphere/migratio/config.yml
 
-**Important!** `name` must be identical with *ComputeSite* `site_id` property. Eg. for *ComputeSite* with `name` `Local` and `site_id` `local`, `name` used in configuration is `local`, not `Local`.
+**Important!** `name` must be identical to the *ComputeSite* `site_id` property. E.g. for *ComputeSite* with `name` `Local` and `site_id` `local` the `name` used in the configuration is `local`, not `Local`.
 
-Create file `~/.creds` with credentials used in *OpenStack* and *Amazon*. Eg.
+Create `~/.creds` with credentials used in *OpenStack* and *Amazon* - for example:
 
     export OS_TENANT_NAME=openstack_tenant
     export OS_USERNAME=openstack_username_for_tenant
@@ -168,18 +168,18 @@ Create file `~/.creds` with credentials used in *OpenStack* and *Amazon*. Eg.
     export AWS_ACCESS_KEY=aws_access_key
     export AWS_SECRET_KEY=aws_secret_key
 
-User who runs *migratio* need to be assigned to `glance` group. User running *migratio* need to be allow in `visudo` to run `qemu-img`.
+The user who runs *migratio* needs to be assigned to the `glance` group and allowed to run `qemu-img` in `visudo`.
 
     atmosphere ALL=(root) NOPASSWD: /usr/bin/qemu-img
 
-Create configuration files per Compute Site in directory `config/`. Configuration file name must be identical with ComputeSite `site_id` property. Use suffix `.conf`. See [config/](config/).
+Create configuration files for each Compute Site in the `config/` directory. The name of the configuration file must be identical to the ComputeSite `site_id` property. Use the `.conf` suffix. See [config/](config/).
 
 For OpenStack:
 
     export EXTERNAL_USER=external_username
     export EXTERNAL_HOST=external_ip_or_hostname
 
-Create account `external_username` on `external_ip_or_hostname` and allow login onto `external_ip_or_hostname` without password (using *ssh* authorized keys) for user which is running `migratio`. Allow `external_username` to use *OpenStack* on external compute site on remote site (using *nova* credentials).
+Create the `external_username` account on `external_ip_or_hostname` and enable login for `external_ip_or_hostname` without password (using *ssh* authorized keys) for the user running `migratio`. Allow `external_username` to access *OpenStack* on the external compute site (using *nova* credentials).
 
 For Amazon:
 
@@ -188,7 +188,7 @@ For Amazon:
 
 ### Run
 
-First time run (as non-root, inside `migratio/` directory):
+First-time run (as non-root, inside `migratio/` directory):
 
     pushd /home/atmosphere/migratio
     bundle exec ./bin/migratio-run
@@ -204,7 +204,7 @@ Stop (as non-root):
 
 ### Log'n'roll
 
-Use *logrotate* to roll generated logs. Example configuration for *logrotate*
+Use *logrotate* to roll generated logs. Example configuration for *logrotate*:
 
     # Migratio logrotate settings
     # based on: http://stackoverflow.com/a/4883967
@@ -228,7 +228,7 @@ Use *logrotate* to roll generated logs. Example configuration for *logrotate*
 
 ## Flow
 
-Diagrams repesenting steps in migrating
+Diagrams repesenting migration steps
 
 * from OpenStack to OpenStack Compute Site
 * from OpenStack to Amazon Compute Site
@@ -237,7 +237,7 @@ Diagrams repesenting steps in migrating
 
 ![From OpenStack to Amazon](docs/openstack2amazon.png)
 
-Create using Gliffy.
+Created using Gliffy.
 
 ## Contributing
 
