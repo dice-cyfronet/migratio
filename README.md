@@ -55,6 +55,8 @@ Install `ruby` and `bundler` (as root, **optional**):
     popd
     popd
 
+> **Note!** You can use *rbenv* or *rvm* if you don't want to install ruby globally.
+
 Install this software (as non-root):
 
     git clone https://github.com/dice-cyfronet/migratio.git /home/atmosphere/migratio
