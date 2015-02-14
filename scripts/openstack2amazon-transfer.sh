@@ -46,6 +46,6 @@ then
         exit 1
     fi
 else
-    echo "Image not converted."
+    echo "Image was not converted."
     exit 1
 fi
