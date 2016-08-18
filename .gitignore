@@ -11,3 +11,5 @@ config.yml
 /nbproject/
 
 *.gem
+.bundle/
+vendor/
